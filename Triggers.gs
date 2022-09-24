@@ -1,6 +1,5 @@
 function createTriggers() {
   var ss = SpreadsheetApp.getActive();
-  var sh = ss.getActiveSheet();
   var triggers = ScriptApp.getProjectTriggers();
   var formSubmitTriggerExists = false;
   var monthTriggerExists = false;
