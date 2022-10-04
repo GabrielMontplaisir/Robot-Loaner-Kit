@@ -4,7 +4,7 @@ function formSubmit(e) {
   var itemResponses = e.values;
   Logger.log(itemResponses) 
   var email = itemResponses[1];
-  var Teacher = itemResponses[2];
+  var fullName = teacherName(email);
   var schoolName = itemResponses[3];
   var bot = itemResponses[7];
   var training = itemResponses[8];
@@ -23,7 +23,10 @@ function formSubmit(e) {
   var data = sh.getDataRange().getValues();
   //Logger.log(data[0])
   var superCol = data[0].indexOf('Superintendency');
-  sh.getRange(row, superCol+1).setValue(Superintendent)
+  sh.getRange(row, superCol+1).setValue(Superintendent);
+
+  var nameCol = data[0].indexOf('Full Name:')
+  sh.getRange(row, nameCol+1).setValue(fullName);
 
   // Check if teacher was coached for that specific bot
   var trainStatus = checkTeacherStatus(email, bot);
@@ -46,7 +49,7 @@ function formSubmit(e) {
   // Find available slot for the bot in question, and if slot is available, place in the appropriate calendar.
   // Then post the confirmed month on the response sheet. Lastly, link to the appropriate Calendar Tab for ease of access.
   var richTextMonth = SpreadsheetApp.newRichTextValue()
-    .setText(confirmMonth(bot, timeChoice, Teacher, schoolName))
+    .setText(confirmMonth(bot, timeChoice, fullName, schoolName))
     .setLinkUrl('#gid='+SpreadsheetApp.getActive().getSheetByName(bot).getSheetId())
     .build()
   var monthCol = data[0].indexOf('Confirmed Month');

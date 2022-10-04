@@ -12,7 +12,7 @@ function emailTeachers() {
     // Logger.log(monthCol[i])
     if (data[i][13] == schoolMonths[currentMonth]) {
       var emailAddress = data[i][1].toString();
-      var fullName = data[i][2].toString();
+      var fullName = teacherName(emailAddress);
       var schoolName = data[i][3].toString();
       var bot = data[i][8].toString();
       // Logger.log(emailAddress+' - '+bookedMonth)
