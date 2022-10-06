@@ -1,6 +1,6 @@
 function formSubmit(e) {
   var ss = SpreadsheetApp.getActive();
-  var sh = ss.getActiveSheet();
+  var sh = e.range.getSheet();
   var itemResponses = e.values;
   Logger.log(itemResponses) 
   var email = itemResponses[1];
@@ -19,13 +19,13 @@ function formSubmit(e) {
   // Set Background to match the Superintendencies sheet, to identify SATE schools / Target Schools
   sh.getRange(row, itemResponses.indexOf(itemResponses[3])+1).setBackground(getSchool.getBackground());
 
-  // Input superintendency automatically
+  // Input superintendency & Name automatically
   var data = sh.getDataRange().getValues();
   //Logger.log(data[0])
   var superCol = data[0].indexOf('Superintendency');
   sh.getRange(row, superCol+1).setValue(Superintendent);
 
-  var nameCol = data[0].indexOf('Full Name:')
+  var nameCol = data[0].indexOf('Full name:');
   sh.getRange(row, nameCol+1).setValue(fullName);
 
   // Check if teacher was coached for that specific bot
