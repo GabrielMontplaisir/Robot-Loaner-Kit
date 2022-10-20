@@ -46,7 +46,7 @@ function emailTeachers() {
         
         "<p>Salut,</p>"+
         
-        "<p>Your loan period is nearing its end and it is time to package and send the robot loaner kit to the next educator. Please refer to the <a href='https://docs.google.com/document/d/1J84k7wRZSyYIYWOH2f0sZ8KRknphauHj0URiaXIor0I/edit#'>attached checklist</a> to ensure all of the parts of the kits are accounted for, in working order and packaged appropriately.</p>"+
+        "<p>Your loan period is nearing its end and it is time to package and send the <b>"+bot+"</b> kit to the next educator. Please refer to the <a href='https://docs.google.com/document/d/1J84k7wRZSyYIYWOH2f0sZ8KRknphauHj0URiaXIor0I/edit#'>attached checklist</a> to ensure all of the parts of the kits are accounted for, in working order and packaged appropriately.</p>"+
 
 "<p>Ideally, each bot should be charged and wiped with a dry clean rag so that the next school can get started right away. Please also make sure that you clearly address the kit to the next educator by including their full name and school location. The kit needs to be sent to<b>: "+ nextBooking +"</b> within the next week. If you are using Board mail, your school’s mail gets picked up <b>"+ mailPickupDay +"</b> from your office. Otherwise, you can deliver the kit directly to the next school.</p>"+
 
