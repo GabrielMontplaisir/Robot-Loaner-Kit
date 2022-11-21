@@ -49,3 +49,11 @@ function teacherName(email) {
   return name.name.fullName;
   // Logger.log(fullName);
 }
+
+function findSuper(schoolName) {
+  // Superintendencies Sheet Info
+  var ss = SpreadsheetApp.getActive().getSheetByName('Superintendencies');
+  var getSchool = ss.createTextFinder(schoolName).matchEntireCell(true).findNext();
+  var Superintendent = ss.getRange(1,getSchool.getColumn()-1).getValue();
+  return {Superintendent, getSchool}
+}

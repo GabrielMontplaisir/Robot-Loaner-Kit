@@ -1,5 +1,4 @@
 function formSubmit(e) {
-  var ss = SpreadsheetApp.getActive();
   var sh = e.range.getSheet();
   var itemResponses = e.values;
   Logger.log(itemResponses) 
@@ -12,12 +11,10 @@ function formSubmit(e) {
   var row = e.range.rowStart;
 
   // Superintendencies Sheet Info
-  var superSheet = ss.getSheetByName('Superintendencies');
-  var getSchool = superSheet.createTextFinder(schoolName).matchEntireCell(true).findNext();
-  var Superintendent = superSheet.getRange(1,getSchool.getColumn()-1).getValue();
+  var {Superintendent, bg} = findSuper(schoolName);
 
   // Set Background to match the Superintendencies sheet, to identify SATE schools / Target Schools
-  sh.getRange(row, itemResponses.indexOf(itemResponses[3])+1).setBackground(getSchool.getBackground());
+  sh.getRange(row, itemResponses.indexOf(itemResponses[3])+1).setBackground(bg.getBackground());
 
   // Input superintendency & Name automatically
   var data = sh.getDataRange().getValues();
