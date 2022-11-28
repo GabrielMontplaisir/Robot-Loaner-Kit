@@ -1,14 +1,13 @@
-function emailTeachers() {
+function sendEmail() {
   var date = new Date();
-  //var currentMonth = Utilities.formatDate(date, Session.getScriptTimeZone(), 'MMMM');
-  var currentMonth = 'December';
-  // Logger.log(currentMonth);
+  var month = Utilities.formatDate(date, Session.getScriptTimeZone(), 'MMMM');
+  // Logger.log(month);
 
   var ss = SpreadsheetApp.getActive();
   var sh = ss.getActiveSheet();
-  var data = sh.getDataRange().getValues().filter(function(confirmedMonth) {
+  var data = sh.getDataRange().getValues().filter(function(current) {
     // Logger.log(row)
-    return confirmedMonth[13] === currentMonth
+    return current[13] === month
   });
   // Logger.log(data);
 
@@ -22,28 +21,28 @@ function emailTeachers() {
     Logger.log(person)
 
 
-    var botCalendar = SpreadsheetApp.getActive().getSheetByName(person.bot);
-    var row = botCalendar.createTextFinder(currentMonth).matchEntireCell(true).findNext().getRow();
+    var botCal = SpreadsheetApp.getActive().getSheetByName(person.bot);
+    var row = botCal.createTextFinder(month).matchEntireCell(true).findNext().getRow();
     // Logger.log(row)
-    var calendarData = botCalendar.getDataRange().getValues().filter(function(month) {
-      return month[0] === currentMonth
+    var calData = botCal.getDataRange().getValues().filter(function(current) {
+      return current[0] === month
     });
-    // Logger.log(calendarData)
-    for (var m = 1; m < calendarData[0].length; m++ ) {
-      // Logger.log(calendarData[0][m]);
-      if (calendarData[0][m] === person.name+' - '+person.school) {
-        // Logger.log(calendarData[0][m]);
-        var nextBooking = botCalendar.getRange(row+1,calendarData[0].indexOf(calendarData[0][m].toString())+1).getValue();
+    // Logger.log(calData)
+    for (var m = 1; m < calData[0].length; m++ ) {
+      // Logger.log(calData[0][m]);
+      if (calData[0][m] === person.name+' - '+person.school) {
+        // Logger.log(calData[0][m]);
+        var nextBooking = botCal.getRange(row+1,calData[0].indexOf(calData[0][m].toString())+1).getValue();
         if (nextBooking === '') {
           nextBooking = 'B&LT 133 Greenbank - 4th Floor - Attention Consultants';
         }
-        Logger.log(calendarData[0][m]+' -> '+nextBooking)
+        Logger.log(calData[0][m]+' -> '+nextBooking)
       }
     }
 
     var superSheet = ss.getSheetByName('Superintendencies');
-    var getSchool = superSheet.createTextFinder(person.school).matchEntireCell(true).findNext();
-    var mailPickupDay = "on "+superSheet.getRange(getSchool.getRow(),getSchool.getColumn()+1).getValue();
+    var findSchool = superSheet.createTextFinder(person.school).matchEntireCell(true).findNext();
+    var mailPickupDay = "on "+superSheet.getRange(findSchool.getRow(),findSchool.getColumn()+1).getValue();
 
     MailApp.sendEmail({
       to: person.email,

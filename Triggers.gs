@@ -9,7 +9,7 @@ function createTriggers() {
       formSubmitTriggerExists = true;
     }
 
-    if(trigger.getEventType() === ScriptApp.EventType.CLOCK && trigger.getHandlerFunction() === "emailTeachers") {
+    if(trigger.getEventType() === ScriptApp.EventType.CLOCK && trigger.getHandlerFunction() === "sendEmail") {
       monthTriggerExists = true;
     }
 
@@ -24,7 +24,7 @@ function createTriggers() {
   }
 
   if (!monthTriggerExists) {
-    ScriptApp.newTrigger('emailTeachers')
+    ScriptApp.newTrigger('sendEmail')
       .timeBased()
       .atHour(8)
       .onMonthDay(20)
