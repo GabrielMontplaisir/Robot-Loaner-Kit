@@ -1,4 +1,4 @@
-function checkTeacherStatus(email, bot) {
+function checkStatus(email, bot) {
   var ss = SpreadsheetApp.getActive().getSheetByName('Teacher Status');
   var data = ss.getDataRange().getValues();
   // Logger.log(email+bot);
@@ -43,7 +43,7 @@ function confirmMonth(bot, timeChoice, fullName, schoolName) {
   }
 }
 
-function teacherName(email) {
+function findName(email) {
   // Get Student's name. Requires the Admin SDK API.
   var name = AdminDirectory.Users.get(email, {viewType:'domain_public', fields:'name'});
   return name.name.fullName;
@@ -55,5 +55,6 @@ function findSuper(schoolName) {
   var ss = SpreadsheetApp.getActive().getSheetByName('Superintendencies');
   var getSchool = ss.createTextFinder(schoolName).matchEntireCell(true).findNext();
   var Superintendent = ss.getRange(1,getSchool.getColumn()-1).getValue();
-  return {Superintendent, getSchool}
+  var bg = getSchool.getBackground();
+  return {Superintendent, bg}
 }

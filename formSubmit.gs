@@ -1,20 +1,23 @@
 function formSubmit(e) {
   var sh = e.range.getSheet();
   var itemResponses = e.values;
-  Logger.log(itemResponses) 
-  var email = itemResponses[1];
-  var fullName = teacherName(email);
-  var schoolName = itemResponses[3];
-  var bot = itemResponses[7];
-  var training = itemResponses[8];
-  var timeChoice = itemResponses[10].toString().split(', ');
+  Logger.log(itemResponses)
+  const response = {
+    email: itemResponses[1],
+    school: itemResponses[3],
+    bot: itemResponses[7],
+    training: itemResponses[8],
+    time: itemResponses[10].toString().split(', ')
+  };
+  response.name = findName(response.email);
   var row = e.range.rowStart;
-
+  //Logger.log(response);
+  
   // Superintendencies Sheet Info
-  var {Superintendent, bg} = findSuper(schoolName);
+  var {Superintendent, bg} = findSuper(response.school);
 
   // Set Background to match the Superintendencies sheet, to identify SATE schools / Target Schools
-  sh.getRange(row, itemResponses.indexOf(itemResponses[3])+1).setBackground(bg.getBackground());
+  sh.getRange(row, itemResponses.indexOf(response.school)+1).setBackground(bg);
 
   // Input superintendency & Name automatically
   var data = sh.getDataRange().getValues();
@@ -23,10 +26,10 @@ function formSubmit(e) {
   sh.getRange(row, superCol+1).setValue(Superintendent);
 
   var nameCol = data[0].indexOf('Full name:');
-  sh.getRange(row, nameCol+1).setValue(fullName);
+  sh.getRange(row, nameCol+1).setValue(response.name);
 
   // Check if teacher was coached for that specific bot
-  var trainStatus = checkTeacherStatus(email, bot);
+  var trainStatus = checkStatus(response.email, response.bot);
   //Logger.log(trainStatus);
   if (trainStatus) {
     trainStatus = 'Yes'
@@ -35,19 +38,19 @@ function formSubmit(e) {
   }
 
   // Highlight Green if the person has received training, Red if they "lied", and Yellow if needs training.
-  if (training.toString() == trainStatus && training.toString() == "Yes") {
-    sh.getRange(row, itemResponses.indexOf(training)+2).setBackground('#b6d7a8');
-  } else if (training.toString() != trainStatus && training.toString() == "Yes") {
-    sh.getRange(row, itemResponses.indexOf(training)+2).setBackground('#ea9999');
+  if (response.training.toString() == trainStatus && response.training.toString() == "Yes") {
+    sh.getRange(row, itemResponses.indexOf(response.training)+2).setBackground('#b6d7a8');
+  } else if (response.training.toString() != trainStatus && training.toString() == "Yes") {
+    sh.getRange(row, itemResponses.indexOf(response.training)+2).setBackground('#ea9999');
   } else {
-    sh.getRange(row, itemResponses.indexOf(training)+2).setBackground('#ffff00');
+    sh.getRange(row, itemResponses.indexOf(response.training)+2).setBackground('#ffff00');
   }
 
   // Find available slot for the bot in question, and if slot is available, place in the appropriate calendar.
   // Then post the confirmed month on the response sheet. Lastly, link to the appropriate Calendar Tab for ease of access.
   var richTextMonth = SpreadsheetApp.newRichTextValue()
-    .setText(confirmMonth(bot, timeChoice, fullName, schoolName))
-    .setLinkUrl('#gid='+SpreadsheetApp.getActive().getSheetByName(bot).getSheetId())
+    .setText(confirmMonth(response.bot, response.time, response.name, response.school))
+    .setLinkUrl('#gid='+SpreadsheetApp.getActive().getSheetByName(response.bot).getSheetId())
     .build()
   var monthCol = data[0].indexOf('Confirmed Month');
   sh.getRange(row,monthCol+1).setRichTextValue(richTextMonth);
