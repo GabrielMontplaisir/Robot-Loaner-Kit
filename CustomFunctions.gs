@@ -10,7 +10,7 @@ function checkStatus(email, bot) {
       for (var b = 0; b < data[0].length; b++) {
         // Logger.log(bot+data[0][b])
         if (data[0][b] === bot) {
-          // Logger.log(data[e][b])
+          //Logger.log(data[e][b])
           return data[e][b]
         }
       }
@@ -52,9 +52,11 @@ function findName(email) {
 
 function findSuper(school) {
   // Superintendencies Sheet Info
+  // Logger.log(school);
   var ss = SpreadsheetApp.getActive().getSheetByName('Superintendencies');
   var findSchool = ss.createTextFinder(school).matchEntireCell(true).findNext();
-  var Superintendent = ss.getRange(1,findSchool.getColumn()-1).getValue();
+  var superintendent = ss.getRange(1,findSchool.getColumn()-1).getValue();
   var bg = findSchool.getBackground();
-  return {Superintendent, bg}
+  // Logger.log(superintendent+bg);
+  return {superintendent, bg}
 }

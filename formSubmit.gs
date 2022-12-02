@@ -14,7 +14,8 @@ function formSubmit(e) {
   //Logger.log(response);
   
   // Superintendencies Sheet Info
-  var {Super, bg} = findSuper(response.school);
+  var {superintendent, bg} = findSuper(response.school);
+  //Logger.log(superintendent)
 
   // Set Background to match the Superintendencies sheet, to identify SATE schools / Target Schools
   sh.getRange(row, itemResponses.indexOf(response.school)+1).setBackground(bg);
@@ -23,7 +24,7 @@ function formSubmit(e) {
   var data = sh.getDataRange().getValues();
   //Logger.log(data[0])
   var superCol = data[0].indexOf('Superintendency');
-  sh.getRange(row, superCol+1).setValue(Super);
+  sh.getRange(row, superCol+1).setValue(superintendent);
 
   var nameCol = data[0].indexOf('Full name:');
   sh.getRange(row, nameCol+1).setValue(response.name);
@@ -38,9 +39,9 @@ function formSubmit(e) {
   }
 
   // Highlight Green if the person has received training, Red if they "lied", and Yellow if needs training.
-  if (response.training.toString() === trainStatus && response.training.toString() === "Yes") {
+  if (response.training === trainStatus && response.training === "Yes") {
     sh.getRange(row, itemResponses.indexOf(response.training)+2).setBackground('#b6d7a8');
-  } else if (response.training.toString() !== trainStatus && training.toString() === "Yes") {
+  } else if (response.training !== trainStatus && response.training === "Yes") {
     sh.getRange(row, itemResponses.indexOf(response.training)+2).setBackground('#ea9999');
   } else {
     sh.getRange(row, itemResponses.indexOf(response.training)+2).setBackground('#ffff00');
