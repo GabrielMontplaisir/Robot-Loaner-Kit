@@ -1,19 +1,12 @@
 function createTriggers() {
-  var ss = SpreadsheetApp.getActive();
-  var triggers = ScriptApp.getProjectTriggers();
-  var formSubmitTriggerExists = false;
-  var monthTriggerExists = false;
+  let ss = SpreadsheetApp.getActive();
+  let triggers = ScriptApp.getProjectTriggers();
 
-  triggers.forEach(function (trigger) {
-    if(trigger.getEventType() === ScriptApp.EventType.ON_FORM_SUBMIT && trigger.getHandlerFunction() === "formSubmit") {
-      formSubmitTriggerExists = true;
-    }
+  const formSubmitTriggerExists = triggers.find(trigger => {
+    return trigger.getEventType() === ScriptApp.EventType.ON_FORM_SUBMIT && trigger.getHandlerFunction() === "formSubmit"});
 
-    if(trigger.getEventType() === ScriptApp.EventType.CLOCK && trigger.getHandlerFunction() === "sendEmail") {
-      monthTriggerExists = true;
-    }
-
-  });
+  const monthTriggerExists = triggers.find(trigger => { 
+    return trigger.getEventType() === ScriptApp.EventType.CLOCK && trigger.getHandlerFunction() === "sendEmail"});
 
   if (!formSubmitTriggerExists) {
     ScriptApp.newTrigger('formSubmit')
