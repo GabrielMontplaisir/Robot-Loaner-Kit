@@ -1,3 +1,3 @@
-# OCDSB Robot Loaner Kit
+# Robot Loaner Kit
 
-Code for the OCDSB Robot Loaner Kit Google Sheets Responses
+Code for the Robot Loaner Kit Google Sheets Responses

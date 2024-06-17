@@ -17,7 +17,7 @@ function formSubmit(e) {
   let {superintendent, bg} = findSuper(response.school);
   //Logger.log(superintendent)
 
-  // Set Background to match the Superintendencies sheet, to identify SATE schools / Target Schools
+  // Set Background to match the Superintendencies sheet
   sh.getRange(row, itemResponses.indexOf(response.school)+1).setBackground(bg);
 
   // Input superintendency & Name automatically
